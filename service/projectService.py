@@ -22,7 +22,20 @@ def create_project(data,db):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Invalid details')
         
 def fetch_dashboard_project_info(data,db):
-    pass
+    projects = db.query(projectModel.ProjectModel).all()
+    total_projects = len(projects)
+    active_count = 0
+    for project in projects:
+       if project.status == projectSchema.ProjectStatus.in_progress:
+            active_count+=1
+    return {
+        "status":"success",
+        "data": {
+            "total_projects": total_projects,
+            "active_projects": active_count,
+            "pending_payments": "not yet set"
+        }
+    }
 
 def get_projects(db):
     project_list = db.query(projectModel.ProjectModel).all()

@@ -1,5 +1,5 @@
 from repository import database
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, Float, String, Integer
 
 class ContractorModel(database.Base):
     
@@ -13,3 +13,18 @@ class ContractorModel(database.Base):
     
     class Config:
         orm_mode: True
+        
+class ContractorProfile(database.Base):
+    __tablename__ = "contractor_profile"
+    id: int = Column(Integer, primary_key=True,index=True, autoincrement=True)
+    user_id: int = Column(Integer, index=True)
+    contractor_id: int = Column(Integer,index=True)
+    company_name: str = Column(String,index=True,nullable=False)
+    rating: float = Column(Float,index=True)
+    approval_status: str = Column(String,index=True, nullable=False)
+    years_experience: int = Column(Integer,index=True)
+    
+    class Config:
+        orm_mode: True
+        
+        

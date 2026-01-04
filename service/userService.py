@@ -49,3 +49,32 @@ def get_user(email, role, db):
     user_data = db.query(userModel.UserModel).filter(userModel.UserModel.email == email).filter(userModel.UserModel.role == role).first()
     return user_data
     
+def update_user(email, data, db):
+    user_data = db.query(userModel.UserModel).filter(userModel.UserModel.email == email).first()
+    
+    if user_data:
+        updated_user_data = userModel.UserModel(email=email, password=user_data.password, access_level=user_data.access_level, role=user_data.role)
+        
+        if data.password:
+            updated_user_data.password = data.password
+        if data.access_level:
+            updated_user_data.access_level = data.access_level
+        if data.role:
+            updated_user_data.role = data.role
+        db.commit()
+        db.refresh(updated_user_data)
+        return updated_user_data
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid user details')
+    
+def delete_user(email,db):
+    user_data = db.query(userModel.UserModel).filter(userModel.UserModel.email == email).first()
+    if user_data:
+        db.delete(user_data)
+        return {
+            "status": "success",
+            "message": "user details deleted successfully",
+            "email": email
+        }
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid user details')

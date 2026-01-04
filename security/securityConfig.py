@@ -51,7 +51,7 @@ def create_refresh_token(data):
     return refresh_token, exp
 
 
-def get_current_user(data, credentials: HTTPAuthorizationCredentials = Depends(security)):
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
         payload = jwt.decode(token,SECRET_KEY, algorithms=[ALGORITHM])

@@ -13,3 +13,7 @@ def get_client_projects(db: Session = Depends(database.get_db)):
 @project_router.get('client/projects/{project_id}')
 def get_client_project_by_id(project_id, db: Session = Depends(database.get_db)):
     return projectService.get_project_by_id(project_id,db)
+
+@project_router.get('/client/dashboard', status_code=status.HTTP_200_OK)
+def get_dashboard_info(db: Session = Depends(database.get_db)):
+    return projectService.fetch_dashboard_project_info(db)
