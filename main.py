@@ -11,3 +11,7 @@ app.include_router(milestoneRouter.milestone_router)
 app.include_router(clientRouter.client_router)
 app.include_router(adminRouter.admin_router)
 app.include_router(paymentRouter.payment_router)
+
+@app.get('')
+def start():
+  print("Backend server is running")
