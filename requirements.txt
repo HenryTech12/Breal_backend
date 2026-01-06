@@ -5,3 +5,4 @@ passlib[cryptography]
 python-multipart
 sqlalchemy
 requests
+dotenv
