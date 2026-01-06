@@ -22,11 +22,11 @@ def get_user(email: HTTPAuthorizationCredentials = Depends(securityConfig.get_cu
 
 
 @user_router.patch('/users/{email}')
-def update_user_by_email(email, data: userSchema.UserSchema, db: Session = Depends(database.get_db)):
+def update_user_by_email(data: userSchema.UserSchema, db: Session = Depends(database.get_db), email: HTTPAuthorizationCredentials = Depends(securityConfig.get_current_user)):
     return userService.update_user(email,data,db)
 
 @user_router.delete('/users/{email}')
-def delete_user_by_email(email, db: Session = Depends(database.get_db)):
+def delete_user_by_email(db: Session = Depends(database.get_db), email: HTTPAuthorizationCredentials = Depends(securityConfig.get_current_user)):
     return userService.delete_user(email,db)
 
 @user_router.post('/auth/refresh')
