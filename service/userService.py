@@ -48,6 +48,10 @@ def login(data,db):
 def get_user(email, role, db):
     user_data = db.query(userModel.UserModel).filter(userModel.UserModel.email == email).filter(userModel.UserModel.role == role).first()
     return user_data
+
+def fetch_all_user(db):
+    user_list = db.query(userModel.UserModel).filter(userModel.UserModel.role == userSchema.UserRole.client).all()
+    return user_list
     
 def update_user(email, data, db):
     user_data = db.query(userModel.UserModel).filter(userModel.UserModel.email == email).first()
@@ -78,3 +82,13 @@ def delete_user(email,db):
         }
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid user details')
+    
+def get_refresh_token(data,db):
+    email, token_type = securityConfig.decode_token(data.token)
+    if email == data.email:
+        if token_type == "refresh":
+            return securityConfig.create_token(data)
+        else:
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Invalid refresh token')
+    else:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Invalid email')

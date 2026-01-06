@@ -2,6 +2,10 @@ from model import clientModel
 from service import userService
 from schema import userSchema
 from fastapi import HTTPException, status
+from repository import database
+
+clientModel.database.Base.metadata.create_all(database.engine)
+
 
 def create_client_profile(data,email ,db):
     user_data = userService.get_user(email,userSchema.UserRole.client,db)

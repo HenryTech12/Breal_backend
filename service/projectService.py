@@ -17,7 +17,10 @@ def create_project(data,db):
         db.refresh(project)
         
         print("project created by admin")
-        return project
+        return {
+            "project_id": project.id,
+            "status": "CREATED"
+        }
     else:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail='Invalid details')
         
@@ -62,3 +65,33 @@ def get_project_by_id(id,db):
         }
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Invalid project id')
+    
+def update_project(id, data,db):
+    project_data = db.query(projectModel.ProjectModel).filter(projectModel.ProjectModel.id == id).first()
+    if project_data:
+        project_data.status = data.status
+        db.commit()
+        db.refresh(project_data)
+        return {
+            "message": "Project Updated"
+        }
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Project not found')
+    
+    
+def unassign_contractor(id,db):
+    project_data = db.query(projectModel.ProjectModel).filter(projectModel.ProjectModel.contractor_id == id).first()
+    if project_data:
+        project_data.contractor_id = -1
+        db.commit()
+        db.refresh(project_data)
+        return {
+            "messsage":"Contractor unassigned"
+        }
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Contractor not found')
+    
+    
+def filter_project_by_status(status,db):
+    project_list = db.query(projectModel.ProjectModel).filter(projectModel.ProjectModel.status == status).all()
+    return project_list

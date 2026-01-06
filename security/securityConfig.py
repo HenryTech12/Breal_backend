@@ -59,3 +59,13 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         return email
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid jwt token')
+    
+def decode_token(token):
+    try:
+        payload = jwt.decode(token,SECRET_KEY, algorithms=[ALGORITHM])
+        email = payload.get('sub')
+        type = payload.get('type')
+        return email, type
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Invalid jwt token')
+    

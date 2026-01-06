@@ -12,7 +12,8 @@ class ProjectModel(database.Base):
     status: str = Column(String, index=True,nullable=False)
     start_date: datetime = Column(DateTime,index=True, nullable=False)
     created_at: datetime = Column(DateTime,index=True, nullable=False)
-    budget: str = Column(String,index=True, nullable=False)
+    budget: str = Column(String,index=True, nullable=False),
+    location: str = Column(String,index=True,nullable=False)
     class Config:
         orm_mode: True
     

@@ -28,3 +28,9 @@ def update_user_by_email(email, data: userSchema.UserSchema, db: Session = Depen
 @user_router.delete('/users/{email}')
 def delete_user_by_email(email, db: Session = Depends(database.get_db)):
     return userService.delete_user(email,db)
+
+@user_router.post('/auth/refresh')
+def refresh_token(data: userSchema.UserRefreshToken, db: Session = Depends(database.get_db)):
+    return userService.get_refresh_token(data,db)
+    
+    

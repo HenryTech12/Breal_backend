@@ -9,7 +9,7 @@ from service import clientService
 client_router = APIRouter()
 
 @client_router.post('/clients/profile')
-def create_client_profile(data: clientSchema, email: str = Depends(securityConfig.get_current_user), db: Session = Depends(database.get_db)):
+def create_client_profile(data: clientSchema.ClientProfileSchema, email: str = Depends(securityConfig.get_current_user), db: Session = Depends(database.get_db)):
     return clientService.create_client_profile(data,email,db)
 
 @client_router.get('/clients/profile')

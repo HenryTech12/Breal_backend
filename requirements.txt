@@ -4,3 +4,4 @@ python-jose[jwt]
 passlib[cryptography]
 python-multipart
 sqlalchemy
+requests

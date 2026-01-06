@@ -28,6 +28,10 @@ class UserResponse(BaseModel):
     status: str
     data: UserData
     
+class UserRefreshToken(BaseModel):
+    email: str
+    token: str
+    
 class UserToken(BaseModel):
     access_token: str
     access_token_expires_in: datetime
