@@ -1,5 +1,18 @@
 from fastapi import FastAPI
 from routers import userRouter, paymentRouter, adminRouter, contractorRouter, projectRouter, clientRouter, taskRouter, milestoneRouter, consultationRouter
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow all origins (DEV ONLY)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 app = FastAPI()
 app.include_router(userRouter.user_router)
